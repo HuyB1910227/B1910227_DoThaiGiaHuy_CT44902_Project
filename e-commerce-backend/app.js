@@ -27,8 +27,8 @@ app.get("/welcome", (_req, res) => {
 });
 app.use("/api/users", usersRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/products", verify, upload.single('image'), productsRouter);
-app.use("/api/categories",verify, upload.single('imgCategory'), categoriesRouter);
+app.use("/api/products", upload.single('image'), productsRouter);
+app.use("/api/categories", upload.single('imgCategory'), categoriesRouter);
 app.use("/api/cart", verify, cartRouter);
 app.use("/api/order", verify, ordersRouter);
 app.use("/api/customers", verify, customersRouter);

@@ -19,6 +19,7 @@ const router = createRouter({
       children: [
           {
             path: "",
+            name: 'product',
             component: () => import("../views/Home.vue"),
           },
           {
@@ -58,7 +59,7 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore();
-  if (!authStore.isAuth && to.name !== 'login' && to.name !== 'register') {
+  if (!authStore.isAuth && to.name !== 'login' && to.name !== 'register' && to.name != 'product' && to.name != 'category.allProduct' && to.name != 'product.detail' && to.name != 'home') {
     next('/login');
   } else {
     next();

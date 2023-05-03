@@ -1,4 +1,5 @@
 <template>
+  <template v-if="isAuth">
     <div class="input-group input-group-sm mb-3 me-3" style="width: 100px;">
         <button class="input-group-text" id="basic-addon2" @click="decrement">-</button>
         <input type="number" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"
@@ -7,14 +8,21 @@
 
     </div>
     <!-- {{ maxItems }} -->
-    <button class="btn btn-primary mb-3 " @click="addToCart(product._id, quantity)">
+    <button class="btn btn-primary mb-3 " @click="addToCart(product._id, quantity)" :class="{'disabled': CanAdd}">
       <i class="fa-solid fa-cart-plus"></i>
     </button>
+  </template>
+  <template v-else>
+    <div>
+      
+    </div>
+  </template>
 </template>
 
 <script>
     import { mapState } from 'pinia';
     import { useCartStore } from '../../stores/CartStore';
+    import { useAuthStore } from '../../stores/AuthStore';
   export default {
     props: {
       product: {
@@ -62,7 +70,17 @@
       }
     },
     computed: {
-      ...mapState(useCartStore, ['cart'])
+      ...mapState(useCartStore, ['cart']),
+      ...mapState(useAuthStore, {
+            isAuth: 'isAuth',
+        }),
+      CanAdd() {
+        if (this.quantity == 0) {
+          return true;
+        }
+        return false;
+      }
+ 
     },
     mounted () {
       this.maxItems = this.product.itemsInStock;
